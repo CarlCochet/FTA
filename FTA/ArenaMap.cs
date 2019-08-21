@@ -134,7 +134,7 @@ namespace FTA
                     window.Draw(square);
                 }*/
 
-                g++;
+                g = current.G + 1;
 
                 foreach (var adjacentTile in adjacentTiles)
                 {
@@ -175,19 +175,24 @@ namespace FTA
 
         public void RenderPath(SFML.Graphics.RenderWindow window, int startX, int startY, int targetX, int targetY)
         {
-            List<ArenaTile> path = FindPath(window, startX, startY, targetX, targetY);
+            List<ArenaTile> path = new List<ArenaTile>();
 
-            var square = new SFML.Graphics.RectangleShape(new Vector2f(Constants.SQUARE_SIZE, Constants.SQUARE_SIZE))
+            if (ArenaTiles[targetX, targetY].TileType == 0)
             {
-                FillColor = SFML.Graphics.Color.Green,
-                OutlineColor = SFML.Graphics.Color.Black,
-                OutlineThickness = Constants.OUTLINE_THICKNESS
-            };
-            
-            foreach (ArenaTile tile in path)
-            {
-                square.Position = new Vector2f(tile.X * Constants.SQUARE_SIZE, tile.Y * Constants.SQUARE_SIZE);
-                window.Draw(square);
+                path = FindPath(window, startX, startY, targetX, targetY);
+
+                var square = new SFML.Graphics.RectangleShape(new Vector2f(Constants.SQUARE_SIZE, Constants.SQUARE_SIZE))
+                {
+                    FillColor = SFML.Graphics.Color.Green,
+                    OutlineColor = SFML.Graphics.Color.Black,
+                    OutlineThickness = Constants.OUTLINE_THICKNESS
+                };
+
+                foreach (ArenaTile tile in path)
+                {
+                    square.Position = new Vector2f(tile.X * Constants.SQUARE_SIZE, tile.Y * Constants.SQUARE_SIZE);
+                    window.Draw(square);
+                }
             }
         }
     }
