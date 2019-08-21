@@ -14,7 +14,7 @@ namespace FTA
         public void Run()
         {
             var mode = new SFML.Window.VideoMode(1600, 800);
-            var window = new SFML.Graphics.RenderWindow(mode, "Fantasy Battle Arena");
+            var window = new SFML.Graphics.RenderWindow(mode, "Fantasy Tactic Arena");
 
             window.Closed += (_, __) => window.Close();
             window.KeyPressed += Window_KeyPressed;
