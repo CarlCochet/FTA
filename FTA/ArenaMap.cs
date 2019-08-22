@@ -105,7 +105,7 @@ namespace FTA
         {
             var square = new SFML.Graphics.RectangleShape(new Vector2f(Utils.SQUARE_SIZE, Utils.SQUARE_SIZE))
             {
-                FillColor = SFML.Graphics.Color.Blue,
+                FillColor = new SFML.Graphics.Color(128, 128, 255),
                 OutlineColor = SFML.Graphics.Color.Black,
                 OutlineThickness = Utils.OUTLINE_THICKNESS
             };
@@ -114,7 +114,7 @@ namespace FTA
             {
                 for (int k = 0; k < Utils.SIZE_MAP_Y; k++)
                 {
-                    if (ArenaBool[i][k]) { 
+                    if (ArenaBool[i][k] && (Math.Abs(startX - i) + Math.Abs(startY - k)) <= range) { 
                         if (LignOfSight.RayTracing(window, in ArenaLdV, in ArenaBool, startX, startY, i, k)) {
                             square.Position = new Vector2f(i * Utils.SQUARE_SIZE, k * Utils.SQUARE_SIZE);
                             window.Draw(square);

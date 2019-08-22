@@ -30,7 +30,7 @@ namespace FTA
                 arenaMap.Render(window);
                 if (start.X >= 0 && start.X < Utils.SIZE_MAP_X && start.Y >= 0 && start.Y < Utils.SIZE_MAP_Y && target.X >= 0 && target.X < Utils.SIZE_MAP_X && target.Y >= 0 && target.Y < Utils.SIZE_MAP_Y)
                 {
-                    arenaMap.RenderLOS(window, target.X, target.Y, 100);
+                    arenaMap.RenderLOS(window, target.X, target.Y, 8);
                 }
 
                 window.Display();

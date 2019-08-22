@@ -20,13 +20,6 @@ namespace FTA
             dx *= 2;
             dy *= 2;
 
-            var square = new SFML.Graphics.RectangleShape(new Vector2f(Utils.SQUARE_SIZE, Utils.SQUARE_SIZE))
-            {
-                FillColor = SFML.Graphics.Color.Red,
-                OutlineColor = SFML.Graphics.Color.Black,
-                OutlineThickness = Utils.OUTLINE_THICKNESS
-            };
-
             while (n > 0)
             {
                 if (error > 0)
@@ -54,10 +47,6 @@ namespace FTA
                         break;
                     }
                 }
-
-                /*Console.Write(x);
-                Console.Write(" ");
-                Console.WriteLine(y);*/
 
                 n--;
             }
