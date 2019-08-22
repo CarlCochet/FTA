@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SFML.System;
 
 namespace FTA
 {
@@ -30,5 +31,7 @@ namespace FTA
 
             return map;
         }
+
+        
     }
 }

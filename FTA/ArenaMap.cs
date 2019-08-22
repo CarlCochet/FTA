@@ -10,6 +10,7 @@ namespace FTA
     {
         private ArenaTile[,] ArenaTiles;
         private bool[][] ArenaBool;
+        private bool[][] ArenaLdV;
 
         public ArenaMap()
         {
@@ -20,6 +21,7 @@ namespace FTA
         {
             ArenaTile[,] map = new ArenaTile[Utils.SIZE_MAP_X, Utils.SIZE_MAP_Y];
             bool[][] boolMap = Utils.CreateMap(Utils.SIZE_MAP_X, Utils.SIZE_MAP_Y, true);
+            bool[][] ldvMap = Utils.CreateMap(Utils.SIZE_MAP_X, Utils.SIZE_MAP_Y, true);
             Random random = new Random();
 
             for (int i = 0; i < (Utils.SIZE_MAP_X / 2); i++)
@@ -28,7 +30,7 @@ namespace FTA
                 {
                     int value = random.Next(100);
                     if      (value < 10)    { map[i, k] = new ArenaTile(i, k, 1); boolMap[i][k] = false; }
-                    else if (value < 20)    { map[i, k] = new ArenaTile(i, k, 2); boolMap[i][k] = false; }
+                    else if (value < 20)    { map[i, k] = new ArenaTile(i, k, 2); boolMap[i][k] = false; ldvMap[i][k] = false; }
                     else                    { map[i, k] = new ArenaTile(i, k, 0); }
                 }
             }
@@ -40,13 +42,14 @@ namespace FTA
                 for (int k = 0; k < Utils.SIZE_MAP_Y; k++)
                 {
                     if      (map[decount, k].TileType == 1) { map[i, k] = new ArenaTile(i, k, 1); boolMap[i][k] = false; }
-                    else if (map[decount, k].TileType == 2) { map[i, k] = new ArenaTile(i, k, 2); boolMap[i][k] = false; }
+                    else if (map[decount, k].TileType == 2) { map[i, k] = new ArenaTile(i, k, 2); boolMap[i][k] = false; ldvMap[i][k] = false; }
                     else                                    { map[i, k] = new ArenaTile(i, k, 0); }
                 }
             }
 
             this.ArenaTiles = map;
             this.ArenaBool = boolMap;
+            this.ArenaLdV = ldvMap;
         }
 
         public void Render(SFML.Graphics.RenderWindow window)
@@ -98,9 +101,37 @@ namespace FTA
             }
         }
 
+        public void RenderLOS(SFML.Graphics.RenderWindow window, int startX, int startY, int range)
+        {
+            var square = new SFML.Graphics.RectangleShape(new Vector2f(Utils.SQUARE_SIZE, Utils.SQUARE_SIZE))
+            {
+                FillColor = SFML.Graphics.Color.Blue,
+                OutlineColor = SFML.Graphics.Color.Black,
+                OutlineThickness = Utils.OUTLINE_THICKNESS
+            };
+
+            for (int i = 0; i < Utils.SIZE_MAP_X; i++)
+            {
+                for (int k = 0; k < Utils.SIZE_MAP_Y; k++)
+                {
+                    if (ArenaBool[i][k]) { 
+                        if (LignOfSight.RayTracing(ArenaLdV, startX, startY, i, k)) {
+                            square.Position = new Vector2f(i * Utils.SQUARE_SIZE, k * Utils.SQUARE_SIZE);
+                            window.Draw(square);
+                        }
+                    }
+                }
+            }
+        }
+
         public bool[][] Arena2Bool()
         {
             bool[][] map = Utils.CreateMap(Utils.SIZE_MAP_X, Utils.SIZE_MAP_Y, false);
+
+            foreach (ArenaTile tile in ArenaTiles)
+            {
+                map[tile.X][tile.Y] = tile.TileType == 0;
+            }
 
             return map;
         }
