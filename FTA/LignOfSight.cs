@@ -7,7 +7,7 @@ namespace FTA
 {
     public static class LignOfSight
     {
-        public static bool RayTracing(bool[][] map, int startX, int startY, int targetX, int targetY) 
+        public static bool RayTracing(SFML.Graphics.RenderWindow window, in bool[][] map, int startX, int startY, int targetX, int targetY) 
         {
             var dx = Math.Abs(startX - targetX);
             var dy = Math.Abs(startY - targetY);
@@ -20,7 +20,14 @@ namespace FTA
             dx *= 2;
             dy *= 2;
 
-            while (n > 0 && map[x][y])
+            var square = new SFML.Graphics.RectangleShape(new Vector2f(Utils.SQUARE_SIZE, Utils.SQUARE_SIZE))
+            {
+                FillColor = SFML.Graphics.Color.Red,
+                OutlineColor = SFML.Graphics.Color.Black,
+                OutlineThickness = Utils.OUTLINE_THICKNESS
+            };
+
+            while (n > 0)
             {
                 if (error > 0)
                 {
@@ -42,12 +49,18 @@ namespace FTA
 
                 if (x < Utils.SIZE_MAP_X & x >= 0 && y < Utils.SIZE_MAP_Y && y >= 0)
                 {
-                    if (map[x][y])
+                    if (!map[x][y])
                     {
-                        Console.WriteLine("Break!");
                         break;
                     }
+                    else
+                    {
+                        square.Position = new Vector2f(x * Utils.SQUARE_SIZE, y * Utils.SQUARE_SIZE);
+                        window.Draw(square);
+                    }
                 }
+
+                n--;
             }
 
             return (x == targetX && y == targetY);
