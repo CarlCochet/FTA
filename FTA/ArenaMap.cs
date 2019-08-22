@@ -115,7 +115,7 @@ namespace FTA
                 for (int k = 0; k < Utils.SIZE_MAP_Y; k++)
                 {
                     if (ArenaBool[i][k]) { 
-                        if (LignOfSight.RayTracing(window, in ArenaLdV, startX, startY, i, k)) {
+                        if (LignOfSight.RayTracing(window, in ArenaLdV, in ArenaBool, startX, startY, i, k)) {
                             square.Position = new Vector2f(i * Utils.SQUARE_SIZE, k * Utils.SQUARE_SIZE);
                             window.Draw(square);
                         }
