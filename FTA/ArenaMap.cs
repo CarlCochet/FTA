@@ -16,8 +16,6 @@ namespace FTA
             GenerateMap();
         }
 
-        
-
         public void GenerateMap()
         {
             ArenaTile[,] map = new ArenaTile[Utils.SIZE_MAP_X, Utils.SIZE_MAP_Y];
@@ -76,116 +74,13 @@ namespace FTA
             }
         }
 
-        static int ComputeHScore(int x, int y, int targetX, int targetY)
-        {
-            return Math.Abs(targetX - x) + Math.Abs(targetY - y);
-        }
-
-        static List<ArenaTile> GetWalkableAdjacentTiles(int x, int y, ArenaTile[,] map)
-        {
-            List<ArenaTile> proposedTiles = new List<ArenaTile>();
-
-            if (x + 1 < Utils.SIZE_MAP_X) { proposedTiles.Add(new ArenaTile(x + 1, y)); }
-            if (x - 1 >= 0) { proposedTiles.Add(new ArenaTile(x - 1, y)); }
-            if (y + 1 < Utils.SIZE_MAP_Y) { proposedTiles.Add(new ArenaTile(x, y + 1)); }
-            if (y - 1 >= 0) { proposedTiles.Add(new ArenaTile(x, y - 1)); }
-
-            return proposedTiles.Where(l => map[l.X, l.Y].TileType == 0).ToList();
-        }
-
-        public List<ArenaTile> FindPath(SFML.Graphics.RenderWindow window, int startX, int startY, int targetX, int targetY)
-        {
-            ArenaTile current = null;
-            ArenaTile start = new ArenaTile(startX, startY);
-            ArenaTile target = new ArenaTile(targetX, targetY);
-
-            List<ArenaTile> openList = new List<ArenaTile>();
-            List<ArenaTile> closedList = new List<ArenaTile>();
-            List<ArenaTile> path = new List<ArenaTile>();
-
-            int g = 0;
-
-            /*var square = new SFML.Graphics.RectangleShape(new Vector2f(Constants.SQUARE_SIZE, Constants.SQUARE_SIZE))
-            {
-                FillColor = SFML.Graphics.Color.Red,
-                OutlineColor = SFML.Graphics.Color.Black,
-                OutlineThickness = 1f
-            };*/
-
-            openList.Add(start);
-            bool pathFound = false;
-
-            while (openList.Count > 0)
-            {
-                var lowest = openList.Min(l => l.F);
-                current = openList.First(l => l.F == lowest);
-
-                closedList.Add(current);
-                openList.Remove(current);
-
-                if (closedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
-                {
-                    pathFound = true;
-                    break;
-                }
-
-                var adjacentTiles = GetWalkableAdjacentTiles(current.X, current.Y, this.ArenaTiles);
-
-                /*foreach (ArenaTile tile in adjacentTiles)
-                {
-                    square.Position = new Vector2f(tile.X * Constants.SQUARE_SIZE, tile.Y * Constants.SQUARE_SIZE);
-                    window.Draw(square);
-                }*/
-
-                g = current.G + 1;
-
-                foreach (var adjacentTile in adjacentTiles)
-                {
-                    if (closedList.FirstOrDefault(l => l.X == adjacentTile.X && l.Y == adjacentTile.Y) != null) { continue; }
-
-                    if (openList.FirstOrDefault(l => l.X == adjacentTile.X && l.Y == adjacentTile.Y) == null)
-                    {
-                        adjacentTile.G = g;
-                        adjacentTile.H = ComputeHScore(adjacentTile.X, adjacentTile.Y, target.X, target.Y);
-                        adjacentTile.F = adjacentTile.G + adjacentTile.H;
-                        adjacentTile.Parent = current;
-
-                        openList.Insert(0, adjacentTile);
-                    }
-                    else
-                    {
-                        if (g + adjacentTile.H < adjacentTile.F)
-                        {
-                            adjacentTile.G = g;
-                            adjacentTile.F = adjacentTile.G + adjacentTile.H;
-                            adjacentTile.Parent = current;
-                        }
-                    }
-                }
-            }
-
-            if (pathFound)
-            {
-                while (current != null)
-                {
-                    path.Add(current);
-                    current = current.Parent;
-                }
-            }
-
-            return path;
-        }
-
         public void RenderPath(SFML.Graphics.RenderWindow window, int startX, int startY, int targetX, int targetY)
         {
-            // List<ArenaTile> path = new List<ArenaTile>();
-
             Vector2i[] path;
             int pathLen;
 
             if (ArenaTiles[targetX, targetY].TileType == 0)
             {
-                // path = FindPath(window, startX, startY, targetX, targetY);
                 pathLen = Pathfinder.FindPath(ArenaBool, new Vector2i(startX, startY), new Vector2i(targetX, targetY), out path);
 
                 var square = new SFML.Graphics.RectangleShape(new Vector2f(Utils.SQUARE_SIZE, Utils.SQUARE_SIZE))
