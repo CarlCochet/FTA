@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FTA
 {
-    class ArenaTile
+    public class ArenaTile
     {
         public int X { get; set; }
         public int Y { get; set; }

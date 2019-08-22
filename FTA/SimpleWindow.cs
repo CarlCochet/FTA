@@ -13,7 +13,7 @@ namespace FTA
 
         public void Run()
         {
-            var mode = new SFML.Window.VideoMode(1600, 800);
+            var mode = new SFML.Window.VideoMode(Utils.WINDOW_WIDTH, Utils.WINDOW_HEIGHT);
             var window = new SFML.Graphics.RenderWindow(mode, "Fantasy Tactic Arena");
 
             window.Closed += (_, __) => window.Close();
@@ -28,7 +28,7 @@ namespace FTA
                 window.Clear();
 
                 arenaMap.Render(window);
-                if (start.X >= 0 && start.X < Constants.SIZE_MAP_X && start.Y >= 0 && start.Y < Constants.SIZE_MAP_Y && target.X >= 0 && target.X < Constants.SIZE_MAP_X && target.Y >= 0 && target.Y < Constants.SIZE_MAP_Y)
+                if (start.X >= 0 && start.X < Utils.SIZE_MAP_X && start.Y >= 0 && start.Y < Utils.SIZE_MAP_Y && target.X >= 0 && target.X < Utils.SIZE_MAP_X && target.Y >= 0 && target.Y < Utils.SIZE_MAP_Y)
                 {
                     arenaMap.RenderPath(window, start.X, start.Y, target.X, target.Y);
                 }
@@ -50,8 +50,8 @@ namespace FTA
         private void Window_MouseMoved(object sender, SFML.Window.MouseMoveEventArgs e)
         {
             var window = (SFML.Window.Window)sender;
-            target.X = e.X / Constants.SQUARE_SIZE;
-            target.Y = e.Y / Constants.SQUARE_SIZE;
+            target.X = e.X / Utils.SQUARE_SIZE;
+            target.Y = e.Y / Utils.SQUARE_SIZE;
         }
 
         private void Window_MouseButtonPressed(object sender, SFML.Window.MouseButtonEventArgs e)
@@ -59,8 +59,8 @@ namespace FTA
             var window = (SFML.Window.Window)sender;
             if (e.Button == SFML.Window.Mouse.Button.Left)
             {
-                start.X = e.X / Constants.SQUARE_SIZE;
-                start.Y = e.Y / Constants.SQUARE_SIZE;
+                start.X = e.X / Utils.SQUARE_SIZE;
+                start.Y = e.Y / Utils.SQUARE_SIZE;
             }
         }
     }
