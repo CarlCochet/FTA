@@ -31,7 +31,5 @@ namespace FTA
 
             return map;
         }
-
-        
     }
 }
