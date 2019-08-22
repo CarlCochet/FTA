@@ -72,7 +72,7 @@ namespace FTA
 
         public static bool PossibleMove(Vector2i neighbor, bool[][] map)
         {
-            if (neighbor.X >= 0 && neighbor.X < map.Length && neighbor.Y >= 0 && neighbor.X < map[0].Length)
+            if (neighbor.X >= 0 && neighbor.X < map.Length && neighbor.Y >= 0 && neighbor.Y < map[0].Length)
             {
                 if (map[neighbor.X][neighbor.Y])
                 {

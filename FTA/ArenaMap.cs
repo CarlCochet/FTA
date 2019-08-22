@@ -178,11 +178,15 @@ namespace FTA
 
         public void RenderPath(SFML.Graphics.RenderWindow window, int startX, int startY, int targetX, int targetY)
         {
-            List<ArenaTile> path = new List<ArenaTile>();
+            // List<ArenaTile> path = new List<ArenaTile>();
+
+            Vector2i[] path;
+            int pathLen;
 
             if (ArenaTiles[targetX, targetY].TileType == 0)
             {
-                path = FindPath(window, startX, startY, targetX, targetY);
+                // path = FindPath(window, startX, startY, targetX, targetY);
+                pathLen = Pathfinder.FindPath(ArenaBool, new Vector2i(startX, startY), new Vector2i(targetX, targetY), out path);
 
                 var square = new SFML.Graphics.RectangleShape(new Vector2f(Utils.SQUARE_SIZE, Utils.SQUARE_SIZE))
                 {
@@ -191,7 +195,7 @@ namespace FTA
                     OutlineThickness = Utils.OUTLINE_THICKNESS
                 };
 
-                foreach (ArenaTile tile in path)
+                foreach (Vector2i tile in path)
                 {
                     square.Position = new Vector2f(tile.X * Utils.SQUARE_SIZE, tile.Y * Utils.SQUARE_SIZE);
                     window.Draw(square);
