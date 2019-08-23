@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="SFML.Net" Version="2.5.0" />
+    <PackageReference Include="TGUI.Net.win-x64" Version="0.8.3.10" />
   </ItemGroup>
 
 </Project>

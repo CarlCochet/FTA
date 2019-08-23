@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using SFML.System;
+using TGUI;
 
 namespace FTA
 {
@@ -11,6 +12,7 @@ namespace FTA
         private Vector2i target = new Vector2i(0, 0);
         private ArenaMap arenaMap = new ArenaMap();
         private SFML.Graphics.RenderWindow window;
+        private GameState state;
 
         public void Run()
         {
@@ -22,21 +24,37 @@ namespace FTA
             window.MouseMoved += Window_MouseMoved;
             window.MouseButtonPressed += Window_MouseButtonPressed;
 
+            state = GameState.MAINMENU;
+
             while (window.IsOpen)
             {
                 window.DispatchEvents();
 
                 window.Clear();
 
-                arenaMap.Render(window);
-                if (start.X >= 0 && start.X < Utils.SIZE_MAP_X && start.Y >= 0 && start.Y < Utils.SIZE_MAP_Y && target.X >= 0 && target.X < Utils.SIZE_MAP_X && target.Y >= 0 && target.Y < Utils.SIZE_MAP_Y)
+                Gui gui = CreateMainMenu();
+
+                if (state == GameState.INGAME)
                 {
-                    arenaMap.RenderLOS(window, target.X, target.Y, 8);
+                    arenaMap.Render(window);
+                    if (start.X >= 0 && start.X < Utils.SIZE_MAP_X && start.Y >= 0 && start.Y < Utils.SIZE_MAP_Y && target.X >= 0 && target.X < Utils.SIZE_MAP_X && target.Y >= 0 && target.Y < Utils.SIZE_MAP_Y)
+                    {
+                        arenaMap.RenderLOS(window, target.X, target.Y, 8);
+                    }
+                }
+                if (state == GameState.MAINMENU)
+                {
+                    gui.Draw();
                 }
 
                 window.Display();
             }
             
+        }
+
+        public void CloseWindow()
+        {
+            window.Close();
         }
 
         private void Window_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
@@ -63,6 +81,60 @@ namespace FTA
                 start.X = e.X / Utils.SQUARE_SIZE;
                 start.Y = e.Y / Utils.SQUARE_SIZE;
             }
+        }
+
+        public void SwitchState(GameState newState)
+        {
+            this.state = newState;
+        }
+
+        public Gui CreateMainMenu()
+        {
+            Gui gui = new Gui();
+
+            /*var picture = new Picture("background.jpg");
+            picture.Size = new Vector2f(Utils.SIZE_MAP_X, Utils.SIZE_MAP_Y);
+            gui.Add(picture);*/
+
+            var buttonStart = new Button("Launch fight")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonStart);
+
+            buttonStart.Pressed += (s, e) => SwitchState(GameState.PLACEMENT);
+
+
+            var buttonTeam = new Button("Manage Team")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 2 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonTeam);
+
+            buttonTeam.Pressed += (s, e) => SwitchState(GameState.MANAGETEAM);
+
+            var buttonOption = new Button("Options")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 3 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonOption);
+
+            buttonOption.Pressed += (s, e) => SwitchState(GameState.OPTION);
+
+            var buttonQuit = new Button("Exit")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 4 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonQuit);
+
+            buttonQuit.Pressed += (s, e) => CloseWindow();
+
+
+            return gui;
         }
     }
 }
