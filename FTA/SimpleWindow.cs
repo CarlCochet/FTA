@@ -7,14 +7,15 @@ namespace FTA
 {
     class SimpleWindow
     {
-        Vector2i start = new Vector2i(0, 0);
-        Vector2i target = new Vector2i(0, 0);
-        ArenaMap arenaMap = new ArenaMap();
+        private Vector2i start = new Vector2i(0, 0);
+        private Vector2i target = new Vector2i(0, 0);
+        private ArenaMap arenaMap = new ArenaMap();
+        private SFML.Graphics.RenderWindow window;
 
         public void Run()
         {
             var mode = new SFML.Window.VideoMode(Utils.WINDOW_WIDTH, Utils.WINDOW_HEIGHT);
-            var window = new SFML.Graphics.RenderWindow(mode, "Fantasy Tactic Arena");
+            window = new SFML.Graphics.RenderWindow(mode, "Fantasy Tactic Arena");
 
             window.Closed += (_, __) => window.Close();
             window.KeyPressed += Window_KeyPressed;
