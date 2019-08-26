@@ -7,6 +7,7 @@ namespace FTA
 {
     public static class LignOfSight
     {
+        // Simple ray tracing on grid
         public static bool RayTracing(SFML.Graphics.RenderWindow window, in bool[][] map, in bool[][] info, int startX, int startY, int targetX, int targetY) 
         {
             var dx = Math.Abs(startX - targetX);

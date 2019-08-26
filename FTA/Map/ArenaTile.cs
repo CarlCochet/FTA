@@ -4,13 +4,11 @@ using System.Text;
 
 namespace FTA
 {
+    // For now this class is not really used, but might be used for spells
     public class ArenaTile
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public int F { get; set; }
-        public int G { get; set; }
-        public int H { get; set; }
         public ArenaTile Parent { get; set; }
         public int TileType { get; set; }
 

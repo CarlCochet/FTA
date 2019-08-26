@@ -7,6 +7,7 @@ namespace FTA
 {
     public static class Utils
     {
+        // Some useful constants
         public const int WINDOW_WIDTH = 1600;
         public const int WINDOW_HEIGHT = 800;
 
@@ -17,6 +18,7 @@ namespace FTA
 
         public const float OUTLINE_THICKNESS = 1f;
 
+        // Creating a 2D array with a set value
         public static bool[][] CreateMap(int width, int height, bool value)
         {
             bool[][] map = new bool[width][];

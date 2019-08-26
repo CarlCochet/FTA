@@ -8,23 +8,27 @@ namespace FTA
 {
     class SimpleWindow
     {
-        private Vector2i start = new Vector2i(0, 0);
-        private Vector2i target = new Vector2i(0, 0);
-        private ArenaMap arenaMap = new ArenaMap();
-        private SFML.Graphics.RenderWindow window;
-        private GameState state;
+        private Vector2i start = new Vector2i(0, 0);    // Used to store a starting point (pathfinding / LoS)
+        private Vector2i target = new Vector2i(0, 0);   // Used to store a target point (pathfinding)
+        private ArenaMap arenaMap = new ArenaMap();     // Arena object that stores the arena data and provides utils
+        private SFML.Graphics.RenderWindow window;      // The main window
+        private GameState state;                        // Game state to know what to display / process
 
         public void Run()
         {
+            // For now, size is fixed
             var mode = new SFML.Window.VideoMode(Utils.WINDOW_WIDTH, Utils.WINDOW_HEIGHT);
             window = new SFML.Graphics.RenderWindow(mode, "Fantasy Tactic Arena");
 
+            // Get the keyboard/mouse events
             window.Closed += (_, __) => window.Close();
             window.KeyPressed += Window_KeyPressed;
             window.MouseMoved += Window_MouseMoved;
             window.MouseButtonPressed += Window_MouseButtonPressed;
 
+            // Set initial state and create the main menu
             state = GameState.MAINMENU;
+            Gui gui = CreateMainMenu();
 
             while (window.IsOpen)
             {
@@ -32,8 +36,7 @@ namespace FTA
 
                 window.Clear();
 
-                Gui gui = CreateMainMenu();
-
+                // If in a game, display the map and process game mechanics
                 if (state == GameState.INGAME)
                 {
                     arenaMap.Render(window);
@@ -42,6 +45,8 @@ namespace FTA
                         arenaMap.RenderLOS(window, target.X, target.Y, 8);
                     }
                 }
+
+                // If in main menu, display the main menu (BROKEN, do not know why...)
                 if (state == GameState.MAINMENU)
                 {
                     gui.Draw();
@@ -52,30 +57,40 @@ namespace FTA
             
         }
 
+        // Close the program
         public void CloseWindow()
         {
             window.Close();
         }
 
+        // Manage Keyboard events
         private void Window_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
         {
             var window = (SFML.Window.Window)sender;
+
+            // Does not work, do not know why...
             if (e.Code == SFML.Window.Keyboard.Key.Escape)
             {
                 window.Close();
             }
         }
 
+        // Manage Mouse Move events
         private void Window_MouseMoved(object sender, SFML.Window.MouseMoveEventArgs e)
         {
             var window = (SFML.Window.Window)sender;
+
+            // Just set the new target coords everytime the mouse move
             target.X = e.X / Utils.SQUARE_SIZE;
             target.Y = e.Y / Utils.SQUARE_SIZE;
         }
 
+        // Manage Mouse Button Pressed events
         private void Window_MouseButtonPressed(object sender, SFML.Window.MouseButtonEventArgs e)
         {
             var window = (SFML.Window.Window)sender;
+
+            // Just set the new start coords eveytime the Left mouse button is pressed
             if (e.Button == SFML.Window.Mouse.Button.Left)
             {
                 start.X = e.X / Utils.SQUARE_SIZE;
@@ -83,18 +98,16 @@ namespace FTA
             }
         }
 
+        // Changing the state of the game. Will probably implement an object creation for GUIs
         public void SwitchState(GameState newState)
         {
             this.state = newState;
         }
 
+        // Supposedly creates a GUI... for now it crashed in draw
         public Gui CreateMainMenu()
         {
             Gui gui = new Gui();
-
-            /*var picture = new Picture("background.jpg");
-            picture.Size = new Vector2f(Utils.SIZE_MAP_X, Utils.SIZE_MAP_Y);
-            gui.Add(picture);*/
 
             var buttonStart = new Button("Launch fight")
             {

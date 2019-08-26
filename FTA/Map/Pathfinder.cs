@@ -8,6 +8,7 @@ namespace FTA
 {
     public static class Pathfinder
     {
+        // Simple A* algorithm to find shortest path quickly
         public static int FindPath(bool[][] map, Vector2i start, Vector2i end, out Vector2i[] path)
         {
             path = null;
@@ -69,7 +70,7 @@ namespace FTA
             return closedMap.Sum(x => x.Count(y => y));
         }
 
-
+        // Determines if a neighbor is a valid tile
         public static bool PossibleMove(Vector2i neighbor, bool[][] map)
         {
             if (neighbor.X >= 0 && neighbor.X < map.Length && neighbor.Y >= 0 && neighbor.Y < map[0].Length)
