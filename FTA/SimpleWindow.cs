@@ -28,7 +28,7 @@ namespace FTA
 
             // Set initial state and create the main menu
             state = GameState.MAINMENU;
-            Gui gui = CreateMainMenu();
+            Gui gui = CreateMainMenu(window);
 
             while (window.IsOpen)
             {
@@ -71,7 +71,14 @@ namespace FTA
             // Does not work, do not know why...
             if (e.Code == SFML.Window.Keyboard.Key.Escape)
             {
-                window.Close();
+                if(this.state == GameState.OPTION || this.state == GameState.MANAGETEAM)
+                {
+                    SwitchState(GameState.MAINMENU);
+                }
+                if (this.state == GameState.INGAME || this.state == GameState.PLACEMENT)
+                {
+                    SwitchState(GameState.ESCAPEMENU);
+                }
             }
         }
 
@@ -105,9 +112,9 @@ namespace FTA
         }
 
         // Supposedly creates a GUI... for now it crashed in draw
-        public Gui CreateMainMenu()
+        public Gui CreateMainMenu(SFML.Graphics.RenderWindow window)
         {
-            Gui gui = new Gui();
+            Gui gui = new Gui(window);
 
             var buttonStart = new Button("Launch fight")
             {
@@ -116,7 +123,7 @@ namespace FTA
             };
             gui.Add(buttonStart);
 
-            buttonStart.Pressed += (s, e) => SwitchState(GameState.PLACEMENT);
+            buttonStart.Pressed += (s, e) => SwitchState(GameState.INGAME);
 
 
             var buttonTeam = new Button("Manage Team")
