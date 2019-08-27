@@ -13,6 +13,10 @@ namespace FTA
         private ArenaMap arenaMap = new ArenaMap();     // Arena object that stores the arena data and provides utils
         private SFML.Graphics.RenderWindow window;      // The main window
         private GameState state;                        // Game state to know what to display / process
+        private Gui gui;
+        
+        private int aaQuality = 0;
+        private int effectQuality = 0;
 
         public void Run()
         {
@@ -28,7 +32,7 @@ namespace FTA
 
             // Set initial state and create the main menu
             state = GameState.MAINMENU;
-            Gui gui = CreateMainMenu(window);
+            gui = CreateMainMenu();
 
             while (window.IsOpen)
             {
@@ -46,8 +50,14 @@ namespace FTA
                     }
                 }
 
+                if (state == GameState.ESCAPEMENU || state == GameState.INGAMEOPTION)
+                {
+                    arenaMap.Render(window);
+                    gui.Draw();
+                }
+
                 // If in main menu, display the main menu (BROKEN, do not know why...)
-                if (state == GameState.MAINMENU)
+                if (state == GameState.MAINMENU || state == GameState.OPTION || state == GameState.MANAGETEAM)
                 {
                     gui.Draw();
                 }
@@ -74,10 +84,12 @@ namespace FTA
                 if(this.state == GameState.OPTION || this.state == GameState.MANAGETEAM)
                 {
                     SwitchState(GameState.MAINMENU);
+                    gui = CreateMainMenu();
                 }
                 if (this.state == GameState.INGAME || this.state == GameState.PLACEMENT)
                 {
                     SwitchState(GameState.ESCAPEMENU);
+                    gui = CreateEscapeMenu();
                 }
             }
         }
@@ -108,18 +120,32 @@ namespace FTA
         // Changing the state of the game. Will probably implement an object creation for GUIs
         public void SwitchState(GameState newState)
         {
+            if (newState == GameState.MAINMENU)
+            {
+                this.gui = CreateMainMenu();
+            }
+            if (newState == GameState.ESCAPEMENU)
+            {
+                this.gui = CreateEscapeMenu();
+            }
+            if (newState == GameState.OPTION || newState == GameState.INGAMEOPTION)
+            {
+                this.gui = CreateOptionMenu();
+            }
+
             this.state = newState;
         }
 
-        // Supposedly creates a GUI... for now it crashed in draw
-        public Gui CreateMainMenu(SFML.Graphics.RenderWindow window)
+        // Creates the main menu GUI
+        public Gui CreateMainMenu()
         {
-            Gui gui = new Gui(window);
+            Gui gui = new Gui(this.window);
 
             var buttonStart = new Button("Launch fight")
             {
                 Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 5),
-                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10)
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
             gui.Add(buttonStart);
 
@@ -129,7 +155,8 @@ namespace FTA
             var buttonTeam = new Button("Manage Team")
             {
                 Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 2 / 5),
-                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10)
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
             gui.Add(buttonTeam);
 
@@ -138,7 +165,8 @@ namespace FTA
             var buttonOption = new Button("Options")
             {
                 Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 3 / 5),
-                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10)
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
             gui.Add(buttonOption);
 
@@ -147,7 +175,8 @@ namespace FTA
             var buttonQuit = new Button("Exit")
             {
                 Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 4 / 5),
-                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10)
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
             gui.Add(buttonQuit);
 
@@ -155,6 +184,152 @@ namespace FTA
 
 
             return gui;
+        }
+
+        // Creates the in-game menu GUI
+        public Gui CreateEscapeMenu()
+        {
+            Gui gui = new Gui(this.window);
+
+            var buttonStart = new Button("Resume")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 2 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonStart);
+
+            buttonStart.Pressed += (s, e) => SwitchState(GameState.INGAME);
+
+            var buttonOption = new Button("Options")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 3 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonOption);
+
+            buttonOption.Pressed += (s, e) => SwitchState(GameState.INGAMEOPTION);
+
+            var buttonQuit = new Button("Exit to main menu")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 4 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonQuit);
+
+            buttonQuit.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
+
+
+            return gui;
+        }
+
+        // Creates the Option menu GUI (not working properly)
+        public Gui CreateOptionMenu()
+        {
+            Gui gui = new Gui(this.window);
+
+            var buttonAA = new Button("")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 2 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10),
+                Text = AA2STR()
+            };
+            gui.Add(buttonAA);
+
+            buttonAA.Pressed += (s, e) => UpAA(ref buttonAA);
+
+            var buttonEffect = new Button("")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 3 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10),
+                Text = Effect2Str()
+            };
+            gui.Add(buttonEffect);
+
+            buttonEffect.Pressed += (s, e) => UpEffect(ref buttonEffect);
+
+            var buttonQuit = new Button("Back")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 4 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonQuit);
+            
+            if (state == GameState.OPTION)
+                buttonQuit.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
+            else
+                buttonQuit.Pressed += (s, e) => SwitchState(GameState.ESCAPEMENU);
+
+
+            return gui;
+        }
+
+        public void UpAA(ref Button button)
+        {
+            aaQuality = aaQuality == 0 ? aaQuality + 1 : (aaQuality * 2) % 32;
+            Console.WriteLine(effectQuality);
+            Console.WriteLine(aaQuality);
+            Console.WriteLine("---------------------------");
+            String text = AA2STR();
+            button.Text = text;
+            this.gui.Add(button);
+        }
+
+        public String AA2STR()
+        {
+            StringBuilder str = new StringBuilder("AA Quality: ");
+            
+            if (aaQuality == 0)
+            {
+                str.Append("OFF");
+            }
+            else
+            {
+                str.Append(aaQuality);
+                str.Append("x");
+            }
+
+            return str.ToString();
+        }
+
+        public void UpEffect(ref Button button)
+        {
+            effectQuality = (effectQuality + 1) % 4;
+            Console.WriteLine(effectQuality);
+            Console.WriteLine(aaQuality);
+            Console.WriteLine("---------------------------");
+            String text = Effect2Str();
+            button.Text = text;
+            this.gui.Add(button);
+        }
+
+        public String Effect2Str()
+        {
+            StringBuilder str = new StringBuilder("Effect Quality: ");
+
+            if (effectQuality == 0)
+            {
+                str.Append("Low");
+            }
+            else if (effectQuality == 1)
+            {
+                str.Append("Medium");
+            }
+            else if (effectQuality == 2)
+            {
+                str.Append("High");
+            }
+            else
+            {
+                str.Append("Ultra");
+            }
+
+            return str.ToString();
         }
     }
 }

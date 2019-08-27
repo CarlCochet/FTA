@@ -12,6 +12,7 @@ namespace FTA
         INGAME,
         MANAGETEAM,
         OPTION,
+        INGAMEOPTION,
         ESCAPEMENU,
     }
 }
