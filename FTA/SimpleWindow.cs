@@ -261,7 +261,7 @@ namespace FTA
             
             if (state == GameState.OPTION)
                 buttonBack.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
-            else
+            else if (state == GameState.INGAMEOPTION)
                 buttonBack.Pressed += (s, e) => SwitchState(GameState.ESCAPEMENU);
 
         }

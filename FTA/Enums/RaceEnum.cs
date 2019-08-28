@@ -6,6 +6,14 @@ namespace FTA.Enums
 {
     public enum RaceEnum
     {
-
+        ARCHER,
+        WARRIOR,
+        BERSERKER,
+        ELEMENTALIST,
+        DIMENSIONALIST,
+        INVOCATOR,
+        ASSASSIN,
+        THIEF,
+        BOMBER
     }
 }
