@@ -13,10 +13,10 @@ namespace FTA
         private ArenaMap arenaMap = new ArenaMap();     // Arena object that stores the arena data and provides utils
         private SFML.Graphics.RenderWindow window;      // The main window
         private GameState state;                        // Game state to know what to display / process
-        private Gui gui;
+        private Gui gui;                                // Stores all the UI elements
         
-        private int aaQuality = 0;
-        private int effectQuality = 0;
+        private int aaQuality = 0;                      // Antialiasing parameter (for testing)
+        private int effectQuality = 0;                  // Effect quality (for testing)
 
         public void Run()
         {
@@ -50,13 +50,14 @@ namespace FTA
                     }
                 }
 
+                // If we are in a in-game menu, then the map should also be displayed in the background
                 if (state == GameState.ESCAPEMENU || state == GameState.INGAMEOPTION)
                 {
                     arenaMap.Render(window);
                     gui.Draw();
                 }
 
-                // If in main menu, display the main menu (BROKEN, do not know why...)
+                // Displays the general menus without the in-game context
                 if (state == GameState.MAINMENU || state == GameState.OPTION || state == GameState.MANAGETEAM)
                 {
                     gui.Draw();
@@ -78,7 +79,7 @@ namespace FTA
         {
             var window = (SFML.Window.Window)sender;
 
-            // Does not work, do not know why...
+            // Opens menus or get back to previous menu
             if (e.Code == SFML.Window.Keyboard.Key.Escape)
             {
                 if(this.state == GameState.OPTION || this.state == GameState.MANAGETEAM)
@@ -120,6 +121,7 @@ namespace FTA
         // Changing the state of the game. Will probably implement an object creation for GUIs
         public void SwitchState(GameState newState)
         {
+            // Update the GUI when switching states (broken, events from previous GUI overlaps with current GUI)
             if (newState == GameState.MAINMENU)
             {
                 CreateMainMenu();
