@@ -32,7 +32,7 @@ namespace FTA
 
             // Set initial state and create the main menu
             state = GameState.MAINMENU;
-            gui = CreateMainMenu();
+            CreateMainMenu();
 
             while (window.IsOpen)
             {
@@ -84,12 +84,12 @@ namespace FTA
                 if(this.state == GameState.OPTION || this.state == GameState.MANAGETEAM)
                 {
                     SwitchState(GameState.MAINMENU);
-                    gui = CreateMainMenu();
+                    CreateMainMenu();
                 }
                 if (this.state == GameState.INGAME || this.state == GameState.PLACEMENT)
                 {
                     SwitchState(GameState.ESCAPEMENU);
-                    gui = CreateEscapeMenu();
+                    CreateEscapeMenu();
                 }
             }
         }
@@ -122,24 +122,25 @@ namespace FTA
         {
             if (newState == GameState.MAINMENU)
             {
-                this.gui = CreateMainMenu();
+                CreateMainMenu();
             }
             if (newState == GameState.ESCAPEMENU)
             {
-                this.gui = CreateEscapeMenu();
+                CreateEscapeMenu();
             }
             if (newState == GameState.OPTION || newState == GameState.INGAMEOPTION)
             {
-                this.gui = CreateOptionMenu();
+                CreateOptionMenu();
             }
 
             this.state = newState;
         }
 
         // Creates the main menu GUI
-        public Gui CreateMainMenu()
+        public void CreateMainMenu()
         {
-            Gui gui = new Gui(this.window);
+            gui = null;
+            gui = new Gui(this.window);
 
             var buttonStart = new Button("Launch fight")
             {
@@ -181,19 +182,17 @@ namespace FTA
             gui.Add(buttonQuit);
 
             buttonQuit.Pressed += (s, e) => CloseWindow();
-
-
-            return gui;
         }
 
         // Creates the in-game menu GUI
-        public Gui CreateEscapeMenu()
+        public void CreateEscapeMenu()
         {
-            Gui gui = new Gui(this.window);
+            gui = null;
+            gui = new Gui(this.window);
 
             var buttonStart = new Button("Resume")
             {
-                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 2 / 5),
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 1 / 5),
                 Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
                 TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
@@ -203,7 +202,7 @@ namespace FTA
 
             var buttonOption = new Button("Options")
             {
-                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 3 / 5),
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 2 / 5),
                 Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
                 TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
@@ -213,26 +212,24 @@ namespace FTA
 
             var buttonQuit = new Button("Exit to main menu")
             {
-                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 4 / 5),
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT * 3 / 5),
                 Size = new Vector2f(Utils.WINDOW_WIDTH / 3, Utils.WINDOW_HEIGHT / 10),
                 TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
             gui.Add(buttonQuit);
 
             buttonQuit.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
-
-
-            return gui;
         }
 
         // Creates the Option menu GUI (not working properly)
-        public Gui CreateOptionMenu()
+        public void CreateOptionMenu()
         {
-            Gui gui = new Gui(this.window);
+            gui = null;
+            gui = new Gui(this.window);
 
             var buttonAA = new Button("")
             {
-                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 2 / 5),
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 1 / 5),
                 Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
                 TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10),
                 Text = AA2STR()
@@ -243,7 +240,7 @@ namespace FTA
 
             var buttonEffect = new Button("")
             {
-                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 3 / 5),
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 2 / 5),
                 Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
                 TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10),
                 Text = Effect2Str()
@@ -252,21 +249,19 @@ namespace FTA
 
             buttonEffect.Pressed += (s, e) => UpEffect(ref buttonEffect);
 
-            var buttonQuit = new Button("Back")
+            var buttonBack = new Button("Back")
             {
-                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 4 / 5),
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 3 / 5),
                 Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
                 TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
-            gui.Add(buttonQuit);
+            gui.Add(buttonBack);
             
             if (state == GameState.OPTION)
-                buttonQuit.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
+                buttonBack.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
             else
-                buttonQuit.Pressed += (s, e) => SwitchState(GameState.ESCAPEMENU);
+                buttonBack.Pressed += (s, e) => SwitchState(GameState.ESCAPEMENU);
 
-
-            return gui;
         }
 
         public void UpAA(ref Button button)
