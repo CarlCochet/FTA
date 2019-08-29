@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using System.Linq;
 using FTA.Enums;
 
 namespace FTA.Fight
 {
     public class Character
     {
-        public Caracteristics carateristics;
+        public Caracteristics Carateristics;
 
         public int X { get; set; }
         public int Y { get; set; }
@@ -34,7 +36,23 @@ namespace FTA.Fight
             if (!Items.Exists(x => x.Stuff == item.Stuff))
             {
                 Items.Add(item);
+                this.Carateristics += item.Caracteristics;
             }
+        }
+
+        public void Item2Carac()
+        {
+            foreach (Item item in Items)
+            {
+                this.Carateristics += item.Caracteristics;
+            }
+        }
+
+        public static string[][] ReadCsv(string path)
+        {
+            using (FileStream stream = File.OpenRead(path))
+            using (StreamReader reader = new StreamReader(stream))
+                return reader.ReadToEnd().Split('\n').Select(line => line.Split(';')).ToArray();
         }
     }
 }

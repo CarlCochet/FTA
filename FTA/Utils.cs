@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using System.Linq;
+
 using SFML.System;
 
 namespace FTA
@@ -32,6 +35,13 @@ namespace FTA
             }
 
             return map;
+        }
+
+        public static string[][] ReadCsv(string path)
+        {
+            using (FileStream stream = File.OpenRead(path))
+            using (StreamReader reader = new StreamReader(stream))
+                return reader.ReadToEnd().Split('\n').Select(line => line.Split(';')).ToArray();
         }
     }
 }
