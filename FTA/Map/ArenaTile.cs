@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FTA
+namespace FTA.Map
 {
     // For now this class is not really used, but might be used for spells
     public class ArenaTile

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SFML.System;
 
-namespace FTA
+namespace FTA.Map
 {
     public static class Pathfinder
     {

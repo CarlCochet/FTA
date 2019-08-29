@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FTA
+namespace FTA.Fight
 {
-    class Spell
+    public class Spell
     {
     }
 }

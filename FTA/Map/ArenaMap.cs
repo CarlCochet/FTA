@@ -4,7 +4,7 @@ using System.Text;
 using System.Linq;
 using SFML.System;
 
-namespace FTA
+namespace FTA.Map
 {
     class ArenaMap
     {

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 using SFML.System;
 using TGUI;
+
+using FTA.Map;
+using FTA.Fight;
 
 namespace FTA
 {
