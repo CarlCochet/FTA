@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FTA.Fight
 {
-    public class Characteristics
+    public class Caracteristics
     {
         public int Life { get; set; }
         public int Fire { get; set; }
@@ -28,7 +28,7 @@ namespace FTA.Fight
         public int Res_light { get; set; }
         public int Res_dark { get; set; }
 
-        public Characteristics()
+        public Caracteristics()
         {
 
         }

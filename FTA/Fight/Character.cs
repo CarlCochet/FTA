@@ -7,7 +7,7 @@ namespace FTA.Fight
 {
     public class Character
     {
-        public Characteristics charateristics;
+        public Caracteristics carateristics;
 
         public int X { get; set; }
         public int Y { get; set; }
@@ -18,23 +18,12 @@ namespace FTA.Fight
 
         public Character()
         {
-            this.Life = 100;
-            this.Fire = 0;
-            this.Water = 0;
-            this.Earth = 0;
-            this.Air = 0;
-            this.Electricity = 0;
             
         }
 
         public Character(int life, int fire, int water, int earth, int air, int electricity)
         {
-            this.Life = life;
-            this.Fire = fire;
-            this.Water = water;
-            this.Earth = earth;
-            this.Air = air;
-            this.Electricity = electricity;
+
         }
     }
 }
