@@ -79,7 +79,35 @@ namespace FTA.Fight
             this.Res_dark = res_dark;
         }
 
+        public static Caracteristics operator +(Caracteristics c1, Caracteristics c2)
+        {
+            Caracteristics c3 = new Caracteristics()
+            {
+                Life = c1.Life + c2.Life,
+                Fire = c1.Fire + c2.Fire,
+                Water = c1.Water + c2.Water,
+                Earth = c1.Earth + c2.Earth,
+                Air = c1.Air + c2.Air,
+                Light = c1.Light + c2.Light,
+                Dark = c1.Dark + c2.Dark,
+                Ap = c1.Ap + c2.Ap,
+                Mp = c1.Mp + c2.Mp,
+                Range = c1.Range + c2.Range,
+                Invoc = c1.Invoc + c2.Invoc,
+                Ret_mp = c1.Ret_mp + c2.Ret_mp,
+                Ret_ap = c1.Ret_ap + c2.Ret_ap,
+                Dodge_mp = c1.Dodge_mp + c2.Dodge_mp,
+                Dodge_ap = c1.Dodge_ap + c2.Dodge_ap,
+                Res_fire = c1.Res_fire + c2.Res_fire,
+                Res_water = c1.Res_water + c2.Res_water,
+                Res_earth = c1.Res_earth + c2.Res_earth,
+                Res_air = c1.Res_air + c2.Res_air,
+                Res_light = c1.Res_light + c2.Res_light,
+                Res_dark = c1.Res_dark + c2.Res_dark,
+            };
 
+            return c3;
+        }
 
     }
 }
