@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FTA.Enums
 {
-    public enum SpellEnum
+    public enum Spells
     {
 
     }

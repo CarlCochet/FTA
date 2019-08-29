@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FTA.Enums
 {
-    public enum RaceEnum
+    public enum Races
     {
         ARCHER,
         WARRIOR,

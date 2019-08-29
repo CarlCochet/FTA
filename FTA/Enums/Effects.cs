@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FTA.Enums
 {
-    public enum EffectEnum
+    public enum Effects
     {
         LOSE_HP,
         GAIN_HP,
