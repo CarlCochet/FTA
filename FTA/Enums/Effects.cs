@@ -50,5 +50,7 @@ namespace FTA.Enums
         GAIN_CARAC_LIGHT,
         LOSE_CARAC_DARK,
         GAIN_CARAC_DARK,
+        GAIN_HEAL,
+        LOSE_HEAL,
     }
 }

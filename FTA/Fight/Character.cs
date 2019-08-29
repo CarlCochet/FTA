@@ -11,9 +11,12 @@ namespace FTA.Fight
 
         public int X { get; set; }
         public int Y { get; set; }
-        public List<CharacterState> states { get; set; }
-        public List<Spell> spells { get; set; }
-        public List<Item> items { get; set; }
+
+        public List<CharacterState> States { get; set; }
+        public List<Spell> Spells { get; set; }
+        public List<Item> Items { get; set; }
+
+        public bool Summoned;
 
 
         public Character()
