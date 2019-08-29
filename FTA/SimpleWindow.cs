@@ -32,6 +32,7 @@ namespace FTA
 
             // Set initial state and create the main menu
             state = GameState.MAINMENU;
+            gui = new Gui(window);
             CreateMainMenu();
 
             while (window.IsOpen)
@@ -87,6 +88,11 @@ namespace FTA
                     SwitchState(GameState.MAINMENU);
                     CreateMainMenu();
                 }
+                if (this.state == GameState.INGAMEOPTION)
+                {
+                    SwitchState(GameState.ESCAPEMENU);
+                    CreateEscapeMenu();
+                }
                 if (this.state == GameState.INGAME || this.state == GameState.PLACEMENT)
                 {
                     SwitchState(GameState.ESCAPEMENU);
@@ -121,28 +127,30 @@ namespace FTA
         // Changing the state of the game. Will probably implement an object creation for GUIs
         public void SwitchState(GameState newState)
         {
+            state = newState;
+
             // Update the GUI when switching states (broken, events from previous GUI overlaps with current GUI)
-            if (newState == GameState.MAINMENU)
+            if (state == GameState.MAINMENU)
             {
                 CreateMainMenu();
             }
-            if (newState == GameState.ESCAPEMENU)
+            if (state == GameState.ESCAPEMENU)
             {
                 CreateEscapeMenu();
             }
-            if (newState == GameState.OPTION || newState == GameState.INGAMEOPTION)
+            if (state == GameState.OPTION || state == GameState.INGAMEOPTION)
             {
                 CreateOptionMenu();
             }
 
-            this.state = newState;
+            Console.WriteLine(newState.ToString());
         }
 
         // Creates the main menu GUI
         public void CreateMainMenu()
         {
-            gui = null;
-            gui = new Gui(this.window);
+            if (gui != null)
+                gui.RemoveAllWidgets();
 
             var buttonStart = new Button("Launch fight")
             {
@@ -189,8 +197,8 @@ namespace FTA
         // Creates the in-game menu GUI
         public void CreateEscapeMenu()
         {
-            gui = null;
-            gui = new Gui(this.window);
+            if (gui != null)
+                gui.RemoveAllWidgets();
 
             var buttonStart = new Button("Resume")
             {
@@ -226,9 +234,10 @@ namespace FTA
         // Creates the Option menu GUI (not working properly)
         public void CreateOptionMenu()
         {
-            gui = null;
-            gui = new Gui(this.window);
+            if (gui != null)
+                gui.RemoveAllWidgets();
 
+            Console.WriteLine("Creating option menu...");
             var buttonAA = new Button("")
             {
                 Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 1 / 5),
@@ -258,20 +267,25 @@ namespace FTA
                 TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
             gui.Add(buttonBack);
-            
+
+            Console.WriteLine(state.ToString());
+
             if (state == GameState.OPTION)
+            {
+                Console.WriteLine("BACK TO MAIN MENU");
                 buttonBack.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
+            }
             else if (state == GameState.INGAMEOPTION)
+            {
+                Console.WriteLine("BACK TO IN-GAME MENU");
                 buttonBack.Pressed += (s, e) => SwitchState(GameState.ESCAPEMENU);
+            }
 
         }
 
         public void UpAA(ref Button button)
         {
             aaQuality = aaQuality == 0 ? aaQuality + 1 : (aaQuality * 2) % 32;
-            Console.WriteLine(effectQuality);
-            Console.WriteLine(aaQuality);
-            Console.WriteLine("---------------------------");
             String text = AA2STR();
             button.Text = text;
             this.gui.Add(button);
@@ -297,9 +311,6 @@ namespace FTA
         public void UpEffect(ref Button button)
         {
             effectQuality = (effectQuality + 1) % 4;
-            Console.WriteLine(effectQuality);
-            Console.WriteLine(aaQuality);
-            Console.WriteLine("---------------------------");
             String text = Effect2Str();
             button.Text = text;
             this.gui.Add(button);
