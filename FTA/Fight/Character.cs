@@ -28,5 +28,13 @@ namespace FTA.Fight
         {
 
         }
+
+        public void AddItem(Item item)
+        {
+            if (!Items.Exists(x => x.Stuff == item.Stuff))
+            {
+                Items.Add(item);
+            }
+        }
     }
 }
