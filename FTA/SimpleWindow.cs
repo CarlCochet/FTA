@@ -124,12 +124,12 @@ namespace FTA
             }
         }
 
-        // Changing the state of the game. Will probably implement an object creation for GUIs
+        // Changing the state of the game and updating the GUI
         public void SwitchState(GameState newState)
         {
             state = newState;
 
-            // Update the GUI when switching states (broken, events from previous GUI overlaps with current GUI)
+            // Update the GUI when switching states
             if (state == GameState.MAINMENU)
             {
                 CreateMainMenu();
@@ -231,7 +231,7 @@ namespace FTA
             buttonQuit.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
         }
 
-        // Creates the Option menu GUI (not working properly)
+        // Creates the Option menu GUI
         public void CreateOptionMenu()
         {
             if (gui != null)
@@ -283,14 +283,16 @@ namespace FTA
 
         }
 
+        // Counts the AA quality
         public void UpAA(ref Button button)
         {
-            aaQuality = aaQuality == 0 ? aaQuality + 1 : (aaQuality * 2) % 32;
+            aaQuality = aaQuality == 0 ? aaQuality + 1 : (aaQuality * 2) % 32; // 0, 1, 2, 4, 8, 16, 0... 
             String text = AA2STR();
             button.Text = text;
             this.gui.Add(button);
         }
 
+        // Transforms the int AA value to String
         public String AA2STR()
         {
             StringBuilder str = new StringBuilder("AA Quality: ");
@@ -308,14 +310,16 @@ namespace FTA
             return str.ToString();
         }
 
+        // Counts the effect quality
         public void UpEffect(ref Button button)
         {
-            effectQuality = (effectQuality + 1) % 4;
+            effectQuality = (effectQuality + 1) % 4; // 0, 1, 2, 3, 0...
             String text = Effect2Str();
             button.Text = text;
             this.gui.Add(button);
         }
 
+        // Transforms the int effect value to String
         public String Effect2Str()
         {
             StringBuilder str = new StringBuilder("Effect Quality: ");

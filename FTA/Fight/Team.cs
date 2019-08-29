@@ -4,7 +4,13 @@ using System.Text;
 
 namespace FTA
 {
-    class Team
+    public class Team
     {
+        public List<Character> characters;
+
+        public Team()
+        {
+            characters = new List<Character>();
+        }
     }
 }
