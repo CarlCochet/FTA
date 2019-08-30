@@ -52,5 +52,8 @@ namespace FTA.Enums
         GAIN_CARAC_DARK,
         GAIN_HEAL,
         LOSE_HEAL,
+        PUSH,
+        PULL,
+        TELEPORT,
     }
 }

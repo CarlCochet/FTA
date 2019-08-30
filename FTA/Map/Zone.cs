@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FTA.Enums
+namespace FTA.Map
 {
-    public enum Spells
+    class Zone
     {
+        
+
 
     }
 }
