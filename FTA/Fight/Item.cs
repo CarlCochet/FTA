@@ -10,16 +10,18 @@ namespace FTA.Fight
     {
         public Caracteristics Caracteristics { get; set; }
         public Stuff Stuff;
+        public String Name;
 
         public Item()
         {
             this.Caracteristics = new Caracteristics();
         }
 
-        public Item(Caracteristics caracteristics, Stuff stuff)
+        public Item(Caracteristics caracteristics, Stuff stuff, String name)
         {
             this.Caracteristics = caracteristics;
             this.Stuff = stuff;
+            this.Name = name;
         }
 
     }
