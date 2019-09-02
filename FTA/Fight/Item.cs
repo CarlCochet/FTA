@@ -11,6 +11,7 @@ namespace FTA.Fight
         public Caracteristics Caracteristics { get; set; }
         public Stuff Stuff;
         public String Name;
+        public int Cost;
 
         public Item()
         {

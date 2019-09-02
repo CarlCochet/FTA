@@ -11,6 +11,7 @@ namespace FTA.Fight
         public List<int> ValueList { get; set; }
         public String Name;
         public String Description;
+        public int Cost;
 
         public Spell()
         {

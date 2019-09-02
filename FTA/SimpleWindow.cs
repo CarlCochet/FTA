@@ -146,6 +146,10 @@ namespace FTA
             {
                 CreateOptionMenu();
             }
+            if (state == GameState.MANAGETEAM)
+            {
+                CreateTeamMenu();
+            }
 
             Console.WriteLine(newState.ToString());
         }
@@ -237,6 +241,58 @@ namespace FTA
 
         // Creates the Option menu GUI
         public void CreateOptionMenu()
+        {
+            if (gui != null)
+                gui.RemoveAllWidgets();
+
+            Console.WriteLine("Creating option menu...");
+            var buttonAA = new Button("")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 1 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10),
+                Text = AA2STR()
+            };
+            gui.Add(buttonAA);
+
+            buttonAA.Pressed += (s, e) => UpAA(ref buttonAA);
+
+            var buttonEffect = new Button("")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 2 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10),
+                Text = Effect2Str()
+            };
+            gui.Add(buttonEffect);
+
+            buttonEffect.Pressed += (s, e) => UpEffect(ref buttonEffect);
+
+            var buttonBack = new Button("Back")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 3 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
+                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonBack);
+
+            Console.WriteLine(state.ToString());
+
+            if (state == GameState.OPTION)
+            {
+                Console.WriteLine("BACK TO MAIN MENU");
+                buttonBack.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
+            }
+            else if (state == GameState.INGAMEOPTION)
+            {
+                Console.WriteLine("BACK TO IN-GAME MENU");
+                buttonBack.Pressed += (s, e) => SwitchState(GameState.ESCAPEMENU);
+            }
+
+        }
+
+        // Creates the Team management menu GUI
+        public void CreateTeamMenu()
         {
             if (gui != null)
                 gui.RemoveAllWidgets();
