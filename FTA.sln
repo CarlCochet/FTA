@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FTA", "FTA\FTA.csproj", "{CDB926FC-EC07-4DA5-B0F3-122BFDB4870A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FTA", "FTA\FTA.csproj", "{CDB926FC-EC07-4DA5-B0F3-122BFDB4870A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentCreator", "ContentCreator\ContentCreator.csproj", "{A11E1851-8607-4318-9979-7794F6682A2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CDB926FC-EC07-4DA5-B0F3-122BFDB4870A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDB926FC-EC07-4DA5-B0F3-122BFDB4870A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDB926FC-EC07-4DA5-B0F3-122BFDB4870A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A11E1851-8607-4318-9979-7794F6682A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A11E1851-8607-4318-9979-7794F6682A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A11E1851-8607-4318-9979-7794F6682A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A11E1851-8607-4318-9979-7794F6682A2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
