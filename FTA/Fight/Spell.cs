@@ -7,11 +7,12 @@ namespace FTA.Fight
 {
     public class Spell
     {
+        public int Id { get; set; }
         public List<Effects> EffectsList { get; set; }
         public List<int> ValueList { get; set; }
-        public String Name;
-        public String Description;
-        public int Cost;
+        public String Name { get; set; }
+        public String Description { get; set; }
+        public int Cost { get; set; }
 
         public Spell()
         {

@@ -39,23 +39,31 @@ namespace FTA.Fight
             this.Carateristics = caracteristics;
         }
 
-        public void AddItem(Item item)
+        public bool AddItem(Item item)
         {
             if (!Items.Exists(x => x.Stuff == item.Stuff))
             {
                 this.Items.Add(item);
                 this.Carateristics += item.Caracteristics;
                 this.Cost += item.Cost;
+
+                return true;
             }
+
+            return false;
         }
 
-        public void AddSpell(Spell spell)
+        public bool AddSpell(Spell spell)
         {
-            if (!Spells.Exists(x => x == spell))
+            if (!Spells.Exists(x => x.Id == spell.Id))
             {
                 this.Spells.Add(spell);
                 this.Cost += spell.Cost;
+
+                return true;
             }
+
+            return false;
         }
 
         public void Item2Carac()

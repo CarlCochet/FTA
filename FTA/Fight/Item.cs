@@ -9,9 +9,9 @@ namespace FTA.Fight
     public class Item
     {
         public Caracteristics Caracteristics { get; set; }
-        public Stuff Stuff;
-        public String Name;
-        public int Cost;
+        public Stuff Stuff { get; set; }
+        public String Name { get; set; }
+        public int Cost { get; set; }
 
         public Item()
         {
