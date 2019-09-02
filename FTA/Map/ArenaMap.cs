@@ -128,7 +128,7 @@ namespace FTA.Map
                 {
                     // Only calculate a LoS if the target is in range
                     if (ArenaBool[i][k] && (Math.Abs(startX - i) + Math.Abs(startY - k)) <= range) { 
-                        if (LignOfSight.RayTracing(window, in ArenaLdV, in ArenaBool, startX, startY, i, k)) {
+                        if (LignOfSight.RayTracing(in ArenaLdV, in ArenaBool, startX, startY, i, k)) {
                             square.Position = new Vector2f(i * Utils.SQUARE_SIZE, k * Utils.SQUARE_SIZE);
                             window.Draw(square);
                         }
