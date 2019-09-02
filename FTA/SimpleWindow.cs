@@ -7,6 +7,7 @@ using TGUI;
 
 using FTA.Map;
 using FTA.Fight;
+using FTA.Enums;
 
 namespace FTA
 {
@@ -245,7 +246,7 @@ namespace FTA
             if (gui != null)
                 gui.RemoveAllWidgets();
 
-            Console.WriteLine("Creating option menu...");
+
             var buttonAA = new Button("")
             {
                 Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 1 / 5),
@@ -276,16 +277,12 @@ namespace FTA
             };
             gui.Add(buttonBack);
 
-            Console.WriteLine(state.ToString());
-
             if (state == GameState.OPTION)
             {
-                Console.WriteLine("BACK TO MAIN MENU");
                 buttonBack.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
             }
             else if (state == GameState.INGAMEOPTION)
             {
-                Console.WriteLine("BACK TO IN-GAME MENU");
                 buttonBack.Pressed += (s, e) => SwitchState(GameState.ESCAPEMENU);
             }
 
@@ -297,50 +294,148 @@ namespace FTA
             if (gui != null)
                 gui.RemoveAllWidgets();
 
-            Console.WriteLine("Creating option menu...");
-            var buttonAA = new Button("")
+
+            var listRace = new ListBox()
             {
-                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 1 / 5),
-                Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
-                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10),
-                Text = AA2STR()
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 16, Utils.WINDOW_HEIGHT * 1 / 4),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 8, Utils.WINDOW_HEIGHT * 1 / 2)
             };
-            gui.Add(buttonAA);
 
-            buttonAA.Pressed += (s, e) => UpAA(ref buttonAA);
-
-            var buttonEffect = new Button("")
+            foreach(Races race in Enum.GetValues(typeof(Races)))
             {
-                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 2 / 5),
-                Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
-                TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10),
-                Text = Effect2Str()
-            };
-            gui.Add(buttonEffect);
+                listRace.AddItem(race.ToString());
+            }
+            gui.Add(listRace);
 
-            buttonEffect.Pressed += (s, e) => UpEffect(ref buttonEffect);
+            var listChar = new ListBox()
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 4 / 16, Utils.WINDOW_HEIGHT * 1 / 4),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 8, Utils.WINDOW_HEIGHT * 1 / 2)
+            };
+
+            foreach (Races race in Enum.GetValues(typeof(Races)))
+            {
+                listChar.AddItem(race.ToString());
+            }
+            gui.Add(listChar);
+
+            var listItem = new ListBox()
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 5 / 8, Utils.WINDOW_HEIGHT * 1 / 16),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 8, Utils.WINDOW_HEIGHT * 3 / 8)
+            };
+
+            foreach (Races race in Enum.GetValues(typeof(Races)))
+            {
+                listItem.AddItem(race.ToString());
+            }
+            gui.Add(listItem);
+
+            var listSpell = new ListBox()
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 5 / 8, Utils.WINDOW_HEIGHT * 9 / 16),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 8, Utils.WINDOW_HEIGHT * 3 / 8)
+            };
+
+            foreach (Races race in Enum.GetValues(typeof(Races)))
+            {
+                listSpell.AddItem(race.ToString());
+            }
+            gui.Add(listSpell);
+
+            var listItemUsed = new ListBox()
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 13 / 16, Utils.WINDOW_HEIGHT * 1 / 16),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 8, Utils.WINDOW_HEIGHT * 3 / 8)
+            };
+
+            foreach (Races race in Enum.GetValues(typeof(Races)))
+            {
+                listItemUsed.AddItem(race.ToString());
+            }
+            gui.Add(listItemUsed);
+
+            var listSpellUsed = new ListBox()
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 13 / 16, Utils.WINDOW_HEIGHT * 9 / 16),
+                Size = new Vector2f(Utils.WINDOW_WIDTH / 8, Utils.WINDOW_HEIGHT * 3 / 8)
+            };
+
+            foreach (Races race in Enum.GetValues(typeof(Races)))
+            {
+                listSpellUsed.AddItem(race.ToString());
+            }
+            gui.Add(listSpellUsed);
+
+            var buttonAddChar = new Button("Add")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 3 / 16, Utils.WINDOW_HEIGHT * 5 / 16),
+                Size = new Vector2f(Utils.WINDOW_WIDTH * 1 / 16, Utils.WINDOW_HEIGHT / 16),
+                TextSize = (uint)(0.3 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonAddChar);
+
+            buttonAddChar.Pressed += (s, e) => AddChar();
+
+            var buttonRemoveChar = new Button("Remove")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 3 / 16, Utils.WINDOW_HEIGHT * 5 / 8),
+                Size = new Vector2f(Utils.WINDOW_WIDTH * 1 / 16, Utils.WINDOW_HEIGHT / 16),
+                TextSize = (uint)(0.3 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonRemoveChar);
+
+            buttonRemoveChar.Pressed += (s, e) => RemoveChar();
+
+            var buttonAddItem = new Button("Add")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 12 / 16, Utils.WINDOW_HEIGHT * 2 / 16),
+                Size = new Vector2f(Utils.WINDOW_WIDTH * 1 / 16, Utils.WINDOW_HEIGHT / 16),
+                TextSize = (uint)(0.3 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonAddItem);
+
+            buttonAddItem.Pressed += (s, e) => AddItem();
+
+            var buttonRemoveItem = new Button("Remove")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 12 / 16, Utils.WINDOW_HEIGHT * 5 / 16),
+                Size = new Vector2f(Utils.WINDOW_WIDTH * 1 / 16, Utils.WINDOW_HEIGHT / 16),
+                TextSize = (uint)(0.3 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonRemoveItem);
+
+            buttonRemoveItem.Pressed += (s, e) => RemoveItem();
+
+            var buttonAddSpell = new Button("Add")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 12 / 16, Utils.WINDOW_HEIGHT * 10 / 16),
+                Size = new Vector2f(Utils.WINDOW_WIDTH * 1 / 16, Utils.WINDOW_HEIGHT / 16),
+                TextSize = (uint)(0.3 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonAddSpell);
+
+            buttonAddSpell.Pressed += (s, e) => AddSpell();
+
+            var buttonRemoveSpell = new Button("Remove")
+            {
+                Position = new Vector2f(Utils.WINDOW_WIDTH * 12 / 16, Utils.WINDOW_HEIGHT * 13 / 16),
+                Size = new Vector2f(Utils.WINDOW_WIDTH * 1 / 16, Utils.WINDOW_HEIGHT / 16),
+                TextSize = (uint)(0.3 * Utils.WINDOW_HEIGHT / 10)
+            };
+            gui.Add(buttonRemoveSpell);
+
+            buttonRemoveSpell.Pressed += (s, e) => RemoveSpell();
 
             var buttonBack = new Button("Back")
             {
-                Position = new Vector2f(Utils.WINDOW_WIDTH / 4, Utils.WINDOW_HEIGHT * 3 / 5),
-                Size = new Vector2f(Utils.WINDOW_WIDTH / 2, Utils.WINDOW_HEIGHT / 10),
+                Position = new Vector2f(Utils.WINDOW_WIDTH / 16, Utils.WINDOW_HEIGHT * 4 / 5),
+                Size = new Vector2f(Utils.WINDOW_WIDTH * 5 / 16, Utils.WINDOW_HEIGHT / 10),
                 TextSize = (uint)(0.6 * Utils.WINDOW_HEIGHT / 10)
             };
             gui.Add(buttonBack);
 
-            Console.WriteLine(state.ToString());
-
-            if (state == GameState.OPTION)
-            {
-                Console.WriteLine("BACK TO MAIN MENU");
-                buttonBack.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
-            }
-            else if (state == GameState.INGAMEOPTION)
-            {
-                Console.WriteLine("BACK TO IN-GAME MENU");
-                buttonBack.Pressed += (s, e) => SwitchState(GameState.ESCAPEMENU);
-            }
-
+            buttonBack.Pressed += (s, e) => SwitchState(GameState.MAINMENU);
         }
 
         // Counts the AA quality
@@ -402,6 +497,37 @@ namespace FTA
             }
 
             return str.ToString();
+        }
+
+
+        public void AddChar()
+        {
+
+        }
+
+        public void RemoveChar()
+        {
+
+        }
+
+        public void AddItem()
+        {
+
+        }
+
+        public void RemoveItem()
+        {
+
+        }
+
+        public void AddSpell()
+        {
+
+        }
+
+        public void RemoveSpell()
+        {
+
         }
     }
 }
