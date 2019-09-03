@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="12.1.2" />
     <PackageReference Include="TGUI.Net.win-x64" Version="0.8.3.10" />
   </ItemGroup>
 

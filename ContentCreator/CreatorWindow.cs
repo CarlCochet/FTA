@@ -7,13 +7,15 @@ using System.Linq;
 using TGUI;
 using SFML.System;
 
+using CsvHelper;
+
 namespace ContentCreator
 {
     class CreatorWindow
     {
         private SFML.Graphics.RenderWindow window;
         private Gui gui;
-        private String path = "../Data/";
+        private String path = "../../../../Data/";
         private States state;
         private int currentId;
 
@@ -33,6 +35,9 @@ namespace ContentCreator
             gui = new Gui(window);
             state = States.MODE_SELECT;
             CreateSelectMenu();
+
+            spells = new List<Spell>();
+            items = new List<Item>();
 
             LoadItems();
             LoadSpells();
@@ -57,6 +62,18 @@ namespace ContentCreator
         {
             state = newState;
 
+            if (state == States.MODE_SELECT)
+            {
+                CreateSelectMenu();
+            }
+            if(state == States.ITEM_EDIT)
+            {
+
+            }
+            if(state == States.SPELL_EDIT)
+            {
+
+            }
         }
 
         // Creates the main menu GUI
@@ -98,16 +115,32 @@ namespace ContentCreator
             buttonQuit.Pressed += (s, e) => CloseWindow();
         }
 
+        public void CreateSpellMenu()
+        {
+
+        }
+
+        public void CreateItemMenu()
+        {
+
+        }
+
         public void LoadItems()
         {
-            string[][] data = ReadCsv(path + "item.csv");
-            
-            for (int i = 0; i < data.Length; i++)
+            using (var reader = new StreamReader(path + "items.csv"))
+            using (var csv = new CsvReader(reader))
             {
-                for (int k = 0; k < data[0].Length; k++)
+                while (csv.Read())
                 {
+                    var records = csv.GetRecord<Item>();
 
+                    items.Add(records);
                 }
+            }
+
+            foreach (Item item in items)
+            {
+                Console.WriteLine(item.Stuff);
             }
         }
 
@@ -120,7 +153,7 @@ namespace ContentCreator
 
         public void LoadSpells()
         {
-            string[][] data = ReadCsv(path + "spell.csv");
+            string[][] data = ReadCsv(path + "spells.csv");
 
             for (int i = 0; i < data.Length; i++)
             {
