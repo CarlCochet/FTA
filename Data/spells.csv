@@ -1,5 +1,5 @@
 ﻿Id,Name,EffectsList,ValueList,RangeMax,RangeMin,IsRangeMod,ZoneType,ZoneStart,ZoneEnd,Description
-0,Burning Dash,"1,15,97,15,32,12","100,1,2,1,1,3",10,1,0,2,0,4,blablabla
+0,Burning Dash,1;15;97;15;32;12,"100,1,2,1,1,3",10,1,0,2,0,4,blablabla
 1,,,,,,,,,,
 2,,,,,,,,,,
 3,,,,,,,,,,
