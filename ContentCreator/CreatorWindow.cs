@@ -162,9 +162,14 @@ namespace ContentCreator
             items.Add(new Item() { Id = items.Count() });
         }
 
-        public void DeleteItem()
+        public void DeleteItem(int id)
         {
+            items.RemoveAt(id);
 
+            for (int i = 0; i < items.Count(); i++)
+            {
+                items[i].Id = i;
+            }
         }
 
         public void AddSpell()
@@ -172,9 +177,14 @@ namespace ContentCreator
             spells.Add(new Spell() { Id = spells.Count() });
         }
 
-        public void DeleteSpell()
+        public void DeleteSpell(int id)
         {
+            spells.RemoveAt(id);
 
+            for (int i = 0; i < spells.Count(); i++)
+            {
+                spells[i].Id = i;
+            }
         }
 
         public void LoadItems()
@@ -193,7 +203,20 @@ namespace ContentCreator
 
         public void SaveItems()
         {
+            /*System.IO.StreamReader file = new System.IO.StreamReader(@"c:\test.txt");
+            List<string> lines = new List<string>();
+            lines.Add(file.ReadLine());
 
+            for (int i = 0; i < items.Count(); i++)
+            {
+
+            }*/
+
+            using (var writer = new StreamWriter(path + "items.csv"))
+            using (var csv = new CsvWriter(writer))
+            {
+                csv.WriteRecords(items);
+            }
         }
 
         public void LoadSpells()
