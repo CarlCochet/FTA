@@ -117,10 +117,62 @@ namespace ContentCreator
 
         public void CreateSpellMenu()
         {
+            if (gui != null)
+                gui.RemoveAllWidgets();
 
+            var buttonBack = new Button("Edit Items")
+            {
+                Position = new Vector2f(width / 3, height * 1 / 5),
+                Size = new Vector2f(width / 3, height / 10),
+                TextSize = (uint)(0.6 * height / 10)
+            };
+            gui.Add(buttonBack);
+
+            buttonBack.Pressed += (s, e) => SwitchState(States.MODE_SELECT);
         }
 
         public void CreateItemMenu()
+        {
+            if (gui != null)
+                gui.RemoveAllWidgets();
+
+            var buttonNew = new Button("New Item")
+            {
+                Position = new Vector2f(width / 3, height * 1 / 5),
+                Size = new Vector2f(width / 3, height / 10),
+                TextSize = (uint)(0.6 * height / 10)
+            };
+            gui.Add(buttonNew);
+
+            buttonNew.Pressed += (s, e) => SwitchState(States.MODE_SELECT);
+
+            var buttonBack = new Button("Edit Items")
+            {
+                Position = new Vector2f(width / 3, height * 1 / 5),
+                Size = new Vector2f(width / 3, height / 10),
+                TextSize = (uint)(0.6 * height / 10)
+            };
+            gui.Add(buttonBack);
+
+            buttonBack.Pressed += (s, e) => SwitchState(States.MODE_SELECT);
+        }
+
+        public void AddItem()
+        {
+            items.Add(new Item() { Id = items.Count() });
+        }
+
+        public void DeleteItem()
+        {
+
+        }
+
+        public void AddSpell()
+        {
+            spells.Add(new Spell() { Id = spells.Count() });
+        }
+
+        public void DeleteSpell()
         {
 
         }
@@ -137,17 +189,10 @@ namespace ContentCreator
                     items.Add(records);
                 }
             }
-
-            foreach (Item item in items)
-            {
-                Console.WriteLine(item.Stuff);
-            }
         }
 
         public void SaveItems()
         {
-
-
 
         }
 
