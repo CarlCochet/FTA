@@ -115,6 +115,7 @@ namespace ContentCreator
             buttonQuit.Pressed += (s, e) => CloseWindow();
         }
 
+        // Creating the spell menu
         public void CreateSpellMenu()
         {
             if (gui != null)
@@ -131,6 +132,7 @@ namespace ContentCreator
             buttonBack.Pressed += (s, e) => SwitchState(States.MODE_SELECT);
         }
 
+        // Creating the item menu
         public void CreateItemMenu()
         {
             if (gui != null)
@@ -157,11 +159,13 @@ namespace ContentCreator
             buttonBack.Pressed += (s, e) => SwitchState(States.MODE_SELECT);
         }
 
+        // Adding an item to the array
         public void AddItem()
         {
             items.Add(new Item() { Id = items.Count() });
         }
 
+        // Remove an item from the array by its Id. Also updates all Ids to keep consistency
         public void DeleteItem(int id)
         {
             items.RemoveAt(id);
@@ -172,11 +176,13 @@ namespace ContentCreator
             }
         }
 
+        // Adding a spell to the array
         public void AddSpell()
         {
             spells.Add(new Spell() { Id = spells.Count() });
         }
 
+        // Remove a spell from the array by its Id. Also updates all Ids to keep consistency
         public void DeleteSpell(int id)
         {
             spells.RemoveAt(id);
@@ -187,6 +193,7 @@ namespace ContentCreator
             }
         }
 
+        // Loading items from datafile to an array
         public void LoadItems()
         {
             using (var reader = new StreamReader(path + "items.csv"))
@@ -201,6 +208,7 @@ namespace ContentCreator
             }
         }
 
+        // Saving items from array to a datafile
         public void SaveItems()
         {
             /*System.IO.StreamReader file = new System.IO.StreamReader(@"c:\test.txt");
@@ -219,6 +227,7 @@ namespace ContentCreator
             }
         }
 
+        // Loading spells from datafile to an array
         public void LoadSpells()
         {
             string[][] data = ReadCsv(path + "spells.csv");
@@ -232,6 +241,7 @@ namespace ContentCreator
             }
         }
 
+        // Saving spells from array to a datafile
         public void SaveSpells()
         {
 
@@ -239,6 +249,7 @@ namespace ContentCreator
             
         }
 
+        // Function to read CSV into a 2D string array
         public static string[][] ReadCsv(string path)
         {
             using (FileStream stream = File.OpenRead(path))
@@ -246,6 +257,7 @@ namespace ContentCreator
                 return reader.ReadToEnd().Split('\n').Select(line => line.Split(',')).ToArray();
         }
 
+        // Changing a single line in the datafile 
         static void LineChanger(string newText, string fileName, int line_to_edit)
         {
             string[] arrLine = File.ReadAllLines(fileName);
