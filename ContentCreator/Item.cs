@@ -117,5 +117,15 @@ namespace ContentCreator
             this.Res_light = res_light;
             this.Res_dark = res_dark;
         }
+
+        public List<int> getCaracs()
+        {
+            return new List<int>()
+            {
+                Life, Fire, Water, Earth, Air, Light, Dark, Ap, Mp, Range, Invoc, Ret_mp,
+                Ret_ap, Dodge_mp, Dodge_ap, Res_fire, Res_water, Res_earth, Res_air,
+                Res_light, Res_dark
+            };
+        }
     }
 }

@@ -25,8 +25,8 @@ namespace ContentCreator
         private List<Spell> spells;
         private List<Item> items;
 
-        private String itemFields = "Id,Name,Stuff,Cost,Life,Fire,Water,Earth,Air,Light,Dark,Ap,Mp,Range,Invoc,Ret_mp,Ret_ap,Dodge_mp,Dodge_ap,Res_fire,Res_water,Res_earth,Res_air,Res_light,Res_dark";
-        private String spellFields = "Id,Name,EffectsList,ValuesList,DurationsList,TriggersList,RangeMax,RangeMin,IsRangeMod,ZoneType,ZoneStart,ZoneEnd,Description";
+        private String itemFields = "Life,Fire,Water,Earth,Air,Light,Dark,Ap,Mp,Range,Invoc,Ret_mp,Ret_ap,Dodge_mp,Dodge_ap,Res_fire,Res_water,Res_earth,Res_air,Res_light,Res_dark";
+        private String spellFields = "EffectsList,ValuesList,DurationsList,TriggersList,RangeMax,RangeMin,IsRangeMod,ZoneType,ZoneStart,ZoneEnd,Description";
 
 
         public void Run()
@@ -187,9 +187,9 @@ namespace ContentCreator
                 Size = new Vector2f(width * 3 / 20, height * 18 / 20),
             };
 
-            foreach (Stuff stuff in Enum.GetValues(typeof(Stuff)))
+            foreach (Item item in items)
             {
-                listItem.AddItem(stuff.ToString());
+                listItem.AddItem(item.Name);
             }
             gui.Add(listItem);
 
@@ -199,9 +199,9 @@ namespace ContentCreator
                 Size = new Vector2f(width * 3 / 20, height * 18 / 20),
             };
 
-            foreach (Stuff stuff in Enum.GetValues(typeof(Stuff)))
+            foreach (int carac in items[currentId].getCaracs())
             {
-                listItemCarac.AddItem(stuff.ToString());
+                listItemCarac.AddItem(carac.ToString());
             }
             gui.Add(listItemCarac);
 
