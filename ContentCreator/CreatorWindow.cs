@@ -148,21 +148,87 @@ namespace ContentCreator
             if (gui != null)
                 gui.RemoveAllWidgets();
 
-            var buttonNew = new Button("New Item")
+            EditBox editName = new EditBox()
             {
-                Position = new Vector2f(width / 3, height * 1 / 5),
-                Size = new Vector2f(width / 3, height / 10),
-                TextSize = (uint)(0.6 * height / 10)
+                Position = new Vector2f(width * 1 / 20, height * 5 / 20),
+                Size = new Vector2f(width * 3 / 20, height * 1 / 20),
+                DefaultText = "Item name"
+            };
+            
+            gui.Add(editName);
+
+            EditBox editValue = new EditBox()
+            {
+                Position = new Vector2f(width * 16/ 20, height * 1 / 20),
+                Size = new Vector2f(width * 3 / 20, height  * 1 / 20),
+                DefaultText = "Value"
+            };
+
+            gui.Add(editValue);
+
+            var listStuff = new ListBox()
+            {
+                Position = new Vector2f(width * 1 / 20, height * 7 / 20),
+                Size = new Vector2f(width * 3 / 20, height * 6 / 20),
+            };
+
+            foreach (Stuff stuff in Enum.GetValues(typeof(Stuff)))
+            {
+                listStuff.AddItem(stuff.ToString());
+            }
+            gui.Add(listStuff);
+
+            var listItem = new ListBox()
+            {
+                Position = new Vector2f(width * 6 / 20, height * 1 / 20),
+                Size = new Vector2f(width * 3 / 20, height * 18 / 20),
+            };
+
+            foreach (Stuff stuff in Enum.GetValues(typeof(Stuff)))
+            {
+                listItem.AddItem(stuff.ToString());
+            }
+            gui.Add(listItem);
+
+            var listItemCarac = new ListBox()
+            {
+                Position = new Vector2f(width * 11 / 20, height * 1 / 20),
+                Size = new Vector2f(width * 3 / 20, height * 18 / 20),
+            };
+
+            foreach (Stuff stuff in Enum.GetValues(typeof(Stuff)))
+            {
+                listItemCarac.AddItem(stuff.ToString());
+            }
+            gui.Add(listItemCarac);
+
+            var listCarac = new ListBox()
+            {
+                Position = new Vector2f(width * 16 / 20, height * 3 / 20),
+                Size = new Vector2f(width * 3 / 20, height * 16 / 20),
+            };
+
+            foreach (Stuff stuff in Enum.GetValues(typeof(Stuff)))
+            {
+                listCarac.AddItem(stuff.ToString());
+            }
+            gui.Add(listCarac);
+
+            var buttonNew = new Button("New")
+            {
+                Position = new Vector2f(width * 4 / 20, height * 8 / 20),
+                Size = new Vector2f(width * 2 / 20, height / 20),
+                TextSize = (uint)(0.4 * height / 10)
             };
             gui.Add(buttonNew);
 
             buttonNew.Pressed += (s, e) => AddItem();
 
-            var buttonDelete = new Button("Delete Item")
+            var buttonDelete = new Button("Del")
             {
-                Position = new Vector2f(width / 3, height * 1 / 5),
-                Size = new Vector2f(width / 3, height / 10),
-                TextSize = (uint)(0.6 * height / 10)
+                Position = new Vector2f(width * 4 / 20, height * 11 / 20),
+                Size = new Vector2f(width * 2 / 20, height / 20),
+                TextSize = (uint)(0.4 * height / 10)
             };
             gui.Add(buttonDelete);
 
@@ -170,23 +236,23 @@ namespace ContentCreator
 
             var buttonAdd = new Button("Add")
             {
-                Position = new Vector2f(width / 3, height * 1 / 5),
-                Size = new Vector2f(width / 3, height / 10),
-                TextSize = (uint)(0.6 * height / 10)
+                Position = new Vector2f(width * 14 / 20, height * 8 / 20),
+                Size = new Vector2f(width * 2 / 20, height / 20),
+                TextSize = (uint)(0.4 * height / 10)
             };
-            gui.Add(buttonNew);
+            gui.Add(buttonAdd);
 
-            buttonNew.Pressed += (s, e) => AddItem();
+            buttonAdd.Pressed += (s, e) => AddItem();
 
-            var buttonRemove = new Button("Remove")
+            var buttonRemove = new Button("Del")
             {
-                Position = new Vector2f(width / 3, height * 1 / 5),
-                Size = new Vector2f(width / 3, height / 10),
-                TextSize = (uint)(0.6 * height / 10)
+                Position = new Vector2f(width * 14 / 20, height * 11 / 20),
+                Size = new Vector2f(width * 2 / 20, height / 20),
+                TextSize = (uint)(0.4 * height / 10)
             };
-            gui.Add(buttonDelete);
+            gui.Add(buttonRemove);
 
-            buttonDelete.Pressed += (s, e) => DeleteItem(currentId);
+            buttonRemove.Pressed += (s, e) => DeleteItem(currentId);
 
             var buttonBack = new Button("Back")
             {
