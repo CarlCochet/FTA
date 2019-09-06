@@ -20,7 +20,7 @@ namespace ContentCreator
         private int currentId;
 
         private uint height = 800;
-        private uint width = 800;
+        private uint width = 1200;
 
         private List<Spell> spells;
         private List<Item> items;
@@ -68,11 +68,11 @@ namespace ContentCreator
             }
             if(state == States.ITEM_EDIT)
             {
-
+                CreateItemMenu();
             }
             if(state == States.SPELL_EDIT)
             {
-
+                CreateSpellMenu();
             }
         }
 
@@ -121,10 +121,20 @@ namespace ContentCreator
             if (gui != null)
                 gui.RemoveAllWidgets();
 
-            var buttonBack = new Button("Edit Items")
+            var buttonNew = new Button("New Spell")
             {
                 Position = new Vector2f(width / 3, height * 1 / 5),
                 Size = new Vector2f(width / 3, height / 10),
+                TextSize = (uint)(0.6 * height / 10)
+            };
+            gui.Add(buttonNew);
+
+            buttonNew.Pressed += (s, e) => SwitchState(States.MODE_SELECT);
+
+            var buttonBack = new Button("Back")
+            {
+                Position = new Vector2f(width * 1 / 20, height * 13 / 16),
+                Size = new Vector2f(width * 1 / 8, height * 1 / 10),
                 TextSize = (uint)(0.6 * height / 10)
             };
             gui.Add(buttonBack);
@@ -146,12 +156,42 @@ namespace ContentCreator
             };
             gui.Add(buttonNew);
 
-            buttonNew.Pressed += (s, e) => SwitchState(States.MODE_SELECT);
+            buttonNew.Pressed += (s, e) => AddItem();
 
-            var buttonBack = new Button("Edit Items")
+            var buttonDelete = new Button("Delete Item")
             {
                 Position = new Vector2f(width / 3, height * 1 / 5),
                 Size = new Vector2f(width / 3, height / 10),
+                TextSize = (uint)(0.6 * height / 10)
+            };
+            gui.Add(buttonDelete);
+
+            buttonDelete.Pressed += (s, e) => DeleteItem(currentId);
+
+            var buttonAdd = new Button("Add")
+            {
+                Position = new Vector2f(width / 3, height * 1 / 5),
+                Size = new Vector2f(width / 3, height / 10),
+                TextSize = (uint)(0.6 * height / 10)
+            };
+            gui.Add(buttonNew);
+
+            buttonNew.Pressed += (s, e) => AddItem();
+
+            var buttonRemove = new Button("Remove")
+            {
+                Position = new Vector2f(width / 3, height * 1 / 5),
+                Size = new Vector2f(width / 3, height / 10),
+                TextSize = (uint)(0.6 * height / 10)
+            };
+            gui.Add(buttonDelete);
+
+            buttonDelete.Pressed += (s, e) => DeleteItem(currentId);
+
+            var buttonBack = new Button("Back")
+            {
+                Position = new Vector2f(width * 1 / 20, height * 13 / 16),
+                Size = new Vector2f(width * 1 / 8, height * 1 / 10),
                 TextSize = (uint)(0.6 * height / 10)
             };
             gui.Add(buttonBack);
@@ -163,6 +203,7 @@ namespace ContentCreator
         public void AddItem()
         {
             items.Add(new Item() { Id = items.Count() });
+            CreateItemMenu();
         }
 
         // Remove an item from the array by its Id. Also updates all Ids to keep consistency
@@ -174,12 +215,14 @@ namespace ContentCreator
             {
                 items[i].Id = i;
             }
+            CreateItemMenu();
         }
 
         // Adding a spell to the array
         public void AddSpell()
         {
             spells.Add(new Spell() { Id = spells.Count() });
+            CreateSpellMenu();
         }
 
         // Remove a spell from the array by its Id. Also updates all Ids to keep consistency
@@ -191,6 +234,7 @@ namespace ContentCreator
             {
                 spells[i].Id = i;
             }
+            CreateSpellMenu();
         }
 
         // Loading items from datafile to an array
